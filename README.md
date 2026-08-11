@@ -14,6 +14,8 @@
    - **IP 已变化** → Server酱 通知 + 写入 `changes.log` 留档 + 更新基准
 4. **首次运行**：建立基准，并发送一条"监控已上线 + 当前 IP 清单"汇总通知
 5. 定期清理状态文件中已消失实例的旧记录
+6. **每日快照**：每天定时（默认 0 点）推送一次所有实例当前 IP 汇总
+7. **失败告警**：某区域拉取失败时推送告警通知（带防抖，避免持续故障刷屏）
 
 > 不需要 Ping，因此可部署在任意位置（国内/国外均可）。
 
@@ -58,6 +60,9 @@ cp .env.example .env
 | `SERVER_CHAN_TOKEN` | 否 | - | Server酱 推送 Token（IP 变更/上线都会通知） |
 | `TELEGRAM_BOT_TOKEN` | 否 | - | Telegram Bot Token（与 `TELEGRAM_CHAT_ID` 同时配置才推送） |
 | `TELEGRAM_CHAT_ID` | 否 | - | Telegram 接收者 Chat ID（与 `TELEGRAM_BOT_TOKEN` 同时配置才推送） |
+| `DAILY_SNAPSHOT_ENABLED` | 否 | `true` | 是否启用每日快照 |
+| `DAILY_SNAPSHOT_HOUR` | 否 | `0` | 每日快照推送时间（小时，0-23） |
+| `FETCH_FAILURE_ALERT_MIN` | 否 | `30` | 拉取失败告警防抖间隔（分钟） |
 | `STATE_FILE` | 否 | `ip-state.json` | IP 状态文件路径 |
 
 ## 运行

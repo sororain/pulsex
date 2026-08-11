@@ -57,8 +57,8 @@ async function sendByTelegram(title, desp) {
  * 发送到所有已配置的通知渠道（Server酱 + Telegram）
  */
 async function sendAll(title, desp) {
-  await sendByServerChan(title, desp);
-  await sendByTelegram(title, desp);
+  // 并行发送，互不影响（一个渠道失败不影响另一个）
+  await Promise.allSettled([sendByServerChan(title, desp), sendByTelegram(title, desp)]);
 }
 
 /**
@@ -102,4 +102,39 @@ async function notifyMonitorOnline(entries) {
   await sendAll("🚀 PulseX 监控已上线", desp);
 }
 
-module.exports = { notifyIpChange, notifyMonitorOnline };
+/**
+ * 发送每日快照汇总通知
+ * @param {Array} entries - [{region, name, ip}]
+ */
+async function notifyDailySnapshot(entries) {
+  const time = new Date().toLocaleString("zh-CN", { hour12: false });
+  const lines = entries.map((e) => `- ${e.region}/${e.name}: ${e.ip}`).join("\n");
+  const desp = [
+    `当前 ${entries.length} 台实例：`,
+    "",
+    lines,
+    "",
+    `时间: ${time}`,
+  ].join("\n");
+
+  await sendAll("📊 PulseX 每日快照", desp);
+}
+
+/**
+ * 发送拉取失败告警
+ * @param {object} detail - {region, reason}
+ */
+async function notifyFetchFailure({ region, reason }) {
+  const time = new Date().toLocaleString("zh-CN", { hour12: false });
+  const desp = [
+    `区域: ${region}`,
+    `原因: ${reason}`,
+    `时间: ${time}`,
+    "",
+    "请检查 AWS 凭证、网络或服务状态。",
+  ].join("\n");
+
+  await sendAll(`⚠️ PulseX 拉取失败: ${region}`, desp);
+}
+
+module.exports = { notifyIpChange, notifyMonitorOnline, notifyDailySnapshot, notifyFetchFailure };

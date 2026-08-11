@@ -22,6 +22,15 @@ const config = {
     chatId: process.env.TELEGRAM_CHAT_ID || "",
   },
 
+  // 每日快照（可选，默认启用，每天定时推送一次所有实例 IP 汇总）
+  dailySnapshot: {
+    enabled: (process.env.DAILY_SNAPSHOT_ENABLED || "true") !== "false",
+    hour: parseInt(process.env.DAILY_SNAPSHOT_HOUR || "0", 10),
+  },
+
+  // 拉取失败告警防抖间隔（分钟），同一区域失败至少间隔这么久才再次告警
+  fetchFailureAlertMin: parseInt(process.env.FETCH_FAILURE_ALERT_MIN || "30", 10),
+
   // IP 状态文件（记录上次已知 IP）
   stateFile: process.env.STATE_FILE || "ip-state.json",
 };
@@ -44,6 +53,16 @@ function validateConfig() {
   }
   if (Number.isNaN(config.interval) || config.interval < 1) {
     errors.push("CHECK_INTERVAL_MIN 必须大于 0");
+  }
+  if (
+    Number.isNaN(config.dailySnapshot.hour) ||
+    config.dailySnapshot.hour < 0 ||
+    config.dailySnapshot.hour > 23
+  ) {
+    errors.push("DAILY_SNAPSHOT_HOUR 必须是 0-23 的整数");
+  }
+  if (Number.isNaN(config.fetchFailureAlertMin) || config.fetchFailureAlertMin < 1) {
+    errors.push("FETCH_FAILURE_ALERT_MIN 必须大于 0");
   }
 
   return errors;

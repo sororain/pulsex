@@ -33,4 +33,17 @@ function saveState(state) {
   }
 }
 
-module.exports = { loadState, saveState };
+/**
+ * 判断状态文件是否已存在（用于判定是否首次运行）
+ * @returns {boolean}
+ */
+function hasState() {
+  try {
+    return fs.existsSync(STATE_FILE);
+  } catch (err) {
+    log("ERROR", `检查状态文件失败: ${err.message}`);
+    return false;
+  }
+}
+
+module.exports = { loadState, saveState, hasState };
