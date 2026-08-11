@@ -6,7 +6,7 @@
   },
   "name": "pulsex",
   "version": "1.0.0",
-  "description": "监控 AWS Lightsail 实例公网 IP 变化，变化时通过 Server酱 通知",
+  "description": "监控 AWS Lightsail 实例公网 IP 变化，变化时通过 Server酱 / Telegram 通知，纯只读零风险",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",

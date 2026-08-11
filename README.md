@@ -1,6 +1,6 @@
 # PulseX
 
-监控 AWS Lightsail 实例公网 IP 变化，变化时通过 Server酱 通知。
+监控 AWS Lightsail 实例公网 IP 变化，变化时通过 Server酱 / Telegram 通知，纯只读零风险。
 
 **只做检测和通知**：不检测连通性、不自动更换 IP，纯只读，零变更风险。
 
