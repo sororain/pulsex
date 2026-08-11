@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-lightsail": "^3.264.0",
+    "axios": "^1.3.2",
+    "dotenv": "^17.4.2"
+  },
+  "name": "pulsex",
+  "version": "1.0.0",
+  "description": "监控 AWS Lightsail 实例公网 IP 变化，变化时通过 Server酱 通知",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "build": "npm i && pm2 start index.js -n pulsex --log-date-format=\"YYYY-MM-DD HH:mm:ss\""
+  },
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sororain/pulsex.git"
+  },
+  "author": "sororain",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "watch": ["*.js"],
+  "ext": "js,mjs,json",
+  "ignore": [
+    "ip-state.json",
+    "lightsail.log",
+    "changes.log",
+    ".env",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "delay": "500"
+}
