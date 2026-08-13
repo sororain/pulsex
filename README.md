@@ -6,7 +6,7 @@
 
 ## 工作原理
 
-1. 定时（默认 1 分钟）并发拉取所有区域 Lightsail 实例列表
+1. 定时（默认 1 分钟）并发拉取所有已配置区域（`AWS_REGIONS`）的 Lightsail 实例列表
 2. 读取每个实例的 `name` + `publicIpAddress`
 3. 与本地 `ip-state.json` 中上次记录的 IP 对比：
    - **无记录**（新实例/首轮）→ 记录为基准，不通知
